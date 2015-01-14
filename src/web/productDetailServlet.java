@@ -20,24 +20,10 @@ public class productDetailServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try{
-			
-			IServiceFactory sFactory = new ServiceFactory(); 
-			IService cs =sFactory.createCategoryService(); 
+		
+	
 
-			
-			String s=null;
-			s=req.getQueryString();
-			String[] ss = s.split("=");
-			List productDetailsList = cs.getList(ss[ss.length-1]);
-			toProductDetailsList(resp,productDetailsList);
-		} catch(Exception e){
-			
-		}
-	}
-
-	private void toProductDetailsList(HttpServletResponse resp,List productDetailsList)
-			throws IOException {
+		List productDetailsList = (List)req.getAttribute("productDetailsList");
 		resp.setCharacterEncoding("GBK");
 		PrintWriter out = resp.getWriter();
 		Iterator<Category> it = productDetailsList.iterator();
@@ -67,7 +53,7 @@ public class productDetailServlet extends HttpServlet {
 		out.println("						<tr>");
 		out.println("							<td width=\"5%\"></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"productList\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"toproductList.jsp\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
 		out.println("							");
 		out.println("          <td width=\"10%\"><a href=\"userManage\"><img name=\"Image2\" border=\"0\" src=\"images/reg.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("							");

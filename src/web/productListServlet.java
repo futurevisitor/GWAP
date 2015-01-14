@@ -20,22 +20,11 @@ public class productListServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try{
-			IServiceFactory sFactory = new ServiceFactory(); 
-			IService ps =sFactory.createProductService(); 
-
-			List productList = ps.getList();
-
-			toProductList(resp,productList);
-		} catch(Exception e){
-			
-		}
-	}
-
-	private void toProductList(HttpServletResponse resp,List productList) throws IOException {
+		
+		List productList = (List)req.getAttribute("productList");
 		resp.setCharacterEncoding("GBK");
 		PrintWriter out = resp.getWriter();
-
+		
 		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
 		out.println("<html>");
 		out.println("	<head>");
@@ -60,7 +49,7 @@ public class productListServlet extends HttpServlet {
 		out.println("						<tr>");
 		out.println("							<td width=\"5%\"></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"productList\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"toproductList.jsp\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
 		out.println("							");
 		out.println("          <td width=\"10%\"><a href=\"userManage\"><img name=\"Image2\" border=\"0\" src=\"images/reg.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("							");
@@ -117,7 +106,6 @@ public class productListServlet extends HttpServlet {
 		out.println("					</font>");
 		out.println("				</td>");
 		out.println("			</tr>");
-		
 		for(Iterator<Product> it = productList.iterator() ;it.hasNext();){
 			Product product = it.next();
 			
@@ -126,7 +114,7 @@ public class productListServlet extends HttpServlet {
 			out.println("					"+product.getProductID()+"");
 			out.println("				</td>");
 			out.println("				");
-			out.println("    <td class=tablebody1 valign=\"middle\" width=\"60%\"> &nbsp;&nbsp;<a href=\"productDetail?value="+product.getProductID()+"\">"+product.getName()+"</a> ");
+			out.println("    <td class=tablebody1 valign=\"middle\" width=\"60%\"> &nbsp;&nbsp;<a href=\"toproductDetailServlet.jsp?value="+product.getProductID()+"\">"+product.getName()+"</a> ");
 			out.println("    </td>");
 			out.println("				<td class=tablebody2 valign=\"middle\" align=\"center\" width=\"8%\">");
 			out.println("					"+product.getBasePrice()+"");
@@ -161,6 +149,8 @@ public class productListServlet extends HttpServlet {
 		out.println("	</body>");
 		out.println("</html>");
 		out.close();
+		
+		
 	}
 
 	@Override
