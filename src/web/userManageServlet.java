@@ -161,23 +161,7 @@ public class userManageServlet extends HttpServlet {
 	
 	}
 
-	private void toError(HttpServletResponse resp, String message)
-			throws IOException {
-		PrintWriter out = resp.getWriter();
-
-		out.println("<html>");
-		out.println("<head>");
-		out.println("	<title>Error</title>");
-		out.println("</head>");
-		out.println("<body>");
-		out.println("	<h2 align=\"center\">Error</h2>");
-		out.println("	<hr>");
-		out.println("	System Error," + message + "!");
-		out.println("</body>");
-		out.println("</html>");
-
-		out.close();
-	}
+	
 
 
 		
