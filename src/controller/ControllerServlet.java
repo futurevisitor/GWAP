@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import pojo.Category;
 import service.IService;
 import service.IServiceFactory;
 import service.ServiceFactory;
@@ -19,8 +18,35 @@ public class ControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String path = req.getServletPath();
+
 		path = path.substring(0, path.indexOf("."));
-		if ("/toproductList".equals(path)) {
+		if ("/userManage".equals(path)) {
+			try {
+				IServiceFactory sFactory = new ServiceFactory();
+				IService usersService = sFactory.createUsersService();
+				List usersList = usersService.getList();
+				req.setAttribute("usersList", usersList);
+
+				getServletContext().getRequestDispatcher("/userManage").forward(req, resp);
+			} catch (Exception e) {
+
+			}
+
+		} else if ("/userModify".equals(path)) {
+			try {
+				String s = req.getParameter("id");
+				IServiceFactory sFactory = new ServiceFactory(); 
+				IService infoService =sFactory.createContactInfoService(); 
+
+				List infoList = infoService.getList(s);
+				req.setAttribute("infoList", infoList);
+
+				getServletContext().getRequestDispatcher("/userModify").forward(req, resp);
+			} catch (Exception e) {
+
+			}
+
+		} else if ("/toproductList".equals(path)) {
 			try{
 				IServiceFactory sFactory = new ServiceFactory(); 
 				IService ps =sFactory.createProductService(); 

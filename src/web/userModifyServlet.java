@@ -20,40 +20,7 @@ public class userModifyServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try {
-			
-			String s = req.getParameter("id");
-			IServiceFactory sFactory = new ServiceFactory(); 
-			IService infoService =sFactory.createContactInfoService(); 
-
-			List infoList = infoService.getList(s);
-			toInfoList(resp, infoList);
-		} catch (Exception e) {
-			toError(resp, e.getMessage());
-		}
-
-	}
-
-	private void toError(HttpServletResponse resp, String message)
-			throws IOException {
-		PrintWriter out = resp.getWriter();
-
-		out.println("<html>");
-		out.println("<head>");
-		out.println("	<title>Error</title>");
-		out.println("</head>");
-		out.println("<body>");
-		out.println("	<h2 align=\"center\">Error</h2>");
-		out.println("	<hr>");
-		out.println("	System Error," + message + "!");
-		out.println("</body>");
-		out.println("</html>");
-
-		out.close();
-	}
-
-	private void toInfoList(HttpServletResponse resp, List infoList)
-			throws IOException {
+		List infoList = (List)req.getAttribute("infoList");
 		resp.setCharacterEncoding("GBK");
 		PrintWriter out = resp.getWriter();
 
@@ -83,9 +50,9 @@ public class userModifyServlet extends HttpServlet {
 		out.println("						<tr>");
 		out.println("							<td width='5%'></td>");
 		out.println("							");
-		out.println("          <td width='10%'><a href='productList'><img name='Image1' border='0' src='images/index.gif' width='90' height='36'></a></td>");
+		out.println("          <td width='10%'><a href='toproductList.jsp'><img name='Image1' border='0' src='images/index.gif' width='90' height='36'></a></td>");
 		out.println("							");
-		out.println("          <td width='10%'><a href='userManage'><img name='Image2' border='0' src='images/reg.gif' width='92' height='36'></a></td>");
+		out.println("          <td width='10%'><a href='userManage.jsp'><img name='Image2' border='0' src='images/reg.gif' width='92' height='36'></a></td>");
 		out.println("							");
 		out.println("          <td width='10%'><a href='shoppingCart'><img name='Image4' border='0' src='images/cart.gif' width='92' height='36'></a></td>");
 		out.println("							");
@@ -111,7 +78,7 @@ public class userModifyServlet extends HttpServlet {
 		out.println("</html>");
 		out.println("<!-- Header End -->");
 		out.println("<!-- Body Start -->");
-		out.println("<form method='post' name='reg'  action='/ecport/user/modify.do'>");
+		out.println("<form method='post' name='reg'  action='doChangeModify.jsp'>");  //here
 		out.println("	<input type='hidden' name='userid' value='admin'/>");
 		out.println("");
 		out.println("	<input type='hidden' name='contactid' value='1'/>");
@@ -285,8 +252,29 @@ public class userModifyServlet extends HttpServlet {
 		out.println("	</body>");
 		out.println("</html>");
 		out.close();
+		
 
 	}
+
+	private void toError(HttpServletResponse resp, String message)
+			throws IOException {
+		PrintWriter out = resp.getWriter();
+
+		out.println("<html>");
+		out.println("<head>");
+		out.println("	<title>Error</title>");
+		out.println("</head>");
+		out.println("<body>");
+		out.println("	<h2 align=\"center\">Error</h2>");
+		out.println("	<hr>");
+		out.println("	System Error," + message + "!");
+		out.println("</body>");
+		out.println("</html>");
+
+		out.close();
+	}
+
+
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
