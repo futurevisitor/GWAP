@@ -27,7 +27,8 @@ public class ControllerServlet extends HttpServlet {
 				List usersList = usersService.getList();
 				req.setAttribute("usersList", usersList);
 
-				getServletContext().getRequestDispatcher("/userManage").forward(req, resp);
+				getServletContext().getRequestDispatcher("/userManage")
+						.forward(req, resp);
 			} catch (Exception e) {
 
 			}
@@ -35,47 +36,84 @@ public class ControllerServlet extends HttpServlet {
 		} else if ("/userModify".equals(path)) {
 			try {
 				String s = req.getParameter("id");
-				IServiceFactory sFactory = new ServiceFactory(); 
-				IService infoService =sFactory.createContactInfoService(); 
+				IServiceFactory sFactory = new ServiceFactory();
+				IService infoService = sFactory.createContactInfoService();
 
 				List infoList = infoService.getList(s);
 				req.setAttribute("infoList", infoList);
 
-				getServletContext().getRequestDispatcher("/userModify").forward(req, resp);
+				getServletContext().getRequestDispatcher("/userModify")
+						.forward(req, resp);
 			} catch (Exception e) {
 
 			}
 
 		} else if ("/toproductList".equals(path)) {
-			try{
-				IServiceFactory sFactory = new ServiceFactory(); 
-				IService ps =sFactory.createProductService(); 
+			try {
+				IServiceFactory sFactory = new ServiceFactory();
+				IService ps = sFactory.createProductService();
 
 				List productList = ps.getList();
- 				req.setAttribute("productList", productList);
- 				
- 				getServletContext().getRequestDispatcher("/productList").forward(req, resp);
- 				
- 			} catch (Exception e){
- 				req.setAttribute("message", e.getMessage());
- 				
- 				getServletContext().getRequestDispatcher("/error").forward(req, resp);
- 			}			
-		} else if ("/toproductDetailServlet".equals(path)) {
-			try{
-				
-				IServiceFactory sFactory = new ServiceFactory(); 
-				IService cs =sFactory.createCategoryService(); 
+				req.setAttribute("productList", productList);
 
-				
-				String s=null;
-				s=req.getQueryString();
+				getServletContext().getRequestDispatcher("/productList")
+						.forward(req, resp);
+
+			} catch (Exception e) {
+				req.setAttribute("message", e.getMessage());
+
+				getServletContext().getRequestDispatcher("/error").forward(req,
+						resp);
+			}
+		} else if ("/toproductDetailServlet".equals(path)) {
+			try {
+
+				IServiceFactory sFactory = new ServiceFactory();
+				IService cs = sFactory.createCategoryService();
+
+				String s = null;
+				s = req.getQueryString();
 				String[] ss = s.split("=");
-				List productDetailsList = cs.getList(ss[ss.length-1]);
+				List productDetailsList = cs.getList(ss[ss.length - 1]);
 				req.setAttribute("productDetailsList", productDetailsList);
-				getServletContext().getRequestDispatcher("/productDetail").forward(req, resp);
-			} catch(Exception e){
-				
+				getServletContext().getRequestDispatcher("/productDetail")
+						.forward(req, resp);
+			} catch (Exception e) {
+
+			}
+		} else if ("/orderList".equals(path)) {
+			try {
+
+				IServiceFactory sFactory = new ServiceFactory();
+				IService ord = sFactory.createOrderListService();
+				List orderList = ord.getList();
+
+				req.setAttribute("orderList", orderList);
+				getServletContext().getRequestDispatcher("/orderList").forward(
+						req, resp);
+
+			} catch (Exception e) {
+				req.setAttribute("message", e.getMessage());
+				getServletContext().getRequestDispatcher("/error").forward(req,
+						resp);
+			}
+
+		} else if ("/orderDetail".equals(path)) {
+			try {
+				String s = req.getParameter("id");
+				IServiceFactory sFactory = new ServiceFactory();
+				IService ord = sFactory.createOrderDetailService();
+
+				List orderDetail = ord.getList(s);
+
+				req.setAttribute("orderDetail", orderDetail);
+				getServletContext().getRequestDispatcher("/orderDetail")
+						.forward(req, resp);
+
+			} catch (Exception e) {
+				req.setAttribute("message", e.getMessage());
+				getServletContext().getRequestDispatcher("/error").forward(req,
+						resp);
 			}
 		} else {
 			resp.sendError(resp.SC_NOT_FOUND);

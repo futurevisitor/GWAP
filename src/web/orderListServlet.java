@@ -11,50 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pojo.OrderList;
-import service.IService;
-import service.IServiceFactory;
-import service.OrderListService;
-import service.ServiceFactory;
 
 public class orderListServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		try {
-			
-			IServiceFactory sFactory = new ServiceFactory(); 
-			IService ord =sFactory.createOrderListService(); 
-			
-
-
-			List orderList = ord.getList();
-
-			toOrderList(resp, orderList);
-		} catch (Exception e) {
-			toError(resp, e.getMessage());
-		}
-	}
-
-	private void toError(HttpServletResponse resp, String message)
-			throws IOException {
-		PrintWriter out = resp.getWriter();
-
-		out.println("<html>");
-		out.println("<head>");
-		out.println("	<title>Error</title>");
-		out.println("</head>");
-		out.println("<body>");
-		out.println("	<h2 align=\"center\">Error</h2>");
-		out.println("	<hr>");
-		out.println("	System Error," + message + "!");
-		out.println("</body>");
-		out.println("</html>");
-
-		out.close();
-	}
-
-	private void toOrderList(HttpServletResponse resp, List orderList)
-			throws IOException {
+		List orderList = (List) req.getAttribute("orderList");
+		
 		resp.setCharacterEncoding("GBK");
 		PrintWriter out = resp.getWriter();
 
@@ -81,15 +44,15 @@ public class orderListServlet extends HttpServlet {
 		out.println("						<tr>");
 		out.println("							<td width=\"5%\"></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"productList\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"productList.jsp\"><img name=\"Image1\" border=\"0\" src=\"images/index.gif\" width=\"90\" height=\"36\"></a></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"userManage\"><img name=\"Image2\" border=\"0\" src=\"images/reg.gif\" width=\"92\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"userManage.jsp\"><img name=\"Image2\" border=\"0\" src=\"images/reg.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"shoppingCart\"><img name=\"Image4\" border=\"0\" src=\"images/cart.gif\" width=\"92\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"shoppingCart.jsp\"><img name=\"Image4\" border=\"0\" src=\"images/cart.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"orderList\"><img name=\"Image5\" border=\"0\" src=\"images/order.gif\" width=\"92\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"orderList.jsp\"><img name=\"Image5\" border=\"0\" src=\"images/order.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("							");
-		out.println("          <td width=\"10%\"><a href=\"productList\"><img name=\"Image6\" border=\"0\" src=\"images/exit.gif\" width=\"92\" height=\"36\"></a></td>");
+		out.println("          <td width=\"10%\"><a href=\"productList.jsp\"><img name=\"Image6\" border=\"0\" src=\"images/exit.gif\" width=\"92\" height=\"36\"></a></td>");
 		out.println("						</tr>");
 		out.println("					</table>");
 		out.println("				</td>");
@@ -140,8 +103,8 @@ public class orderListServlet extends HttpServlet {
 			out.println("				<td class=tablebody2 valign=middle align=left>&nbsp;&nbsp;"
 					+ order.getPaystyle() + " </td>");
 			out.println("				<td class=tablebody1 valign=middle align=center>");
-			out.println("					<input type=\"button\" value=\"É¾³ý\" onclick=\"javascript:window.location='orderList';\">&nbsp;");
-			out.println("					<input type=\"button\" value=\"Ã÷Ï¸\" onclick=\"javascript:window.location='orderDetail?id="+order.getOrderid()+","+order.getUserid()+","+order.getPaywayid()+"';\">");
+			out.println("					<input type=\"button\" value=\"É¾³ý\" onclick=\"javascript:window.location='orderList.jsp';\">&nbsp;");
+			out.println("					<input type=\"button\" value=\"Ã÷Ï¸\" onclick=\"javascript:window.location='orderDetail.jsp?id="+order.getOrderid()+","+order.getUserid()+","+order.getPaywayid()+"';\">");
 			out.println("				</td>");
 			out.println("			</tr>");
 
